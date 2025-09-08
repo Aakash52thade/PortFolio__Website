@@ -3,7 +3,7 @@ import { FaGithub } from "react-icons/fa"; // Only import what we use
 import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
 
-const RecentProjects = () => {
+const RecentProject  = () => {
   return (
     <div className="py-20" id="projects"> {/* Add id="projects" here */}
       <h1 className="heading">
@@ -85,4 +85,4 @@ const RecentProjects = () => {
   );
 };
 
-export default RecentProjects;
+export default RecentProject ;

@@ -56,9 +56,8 @@ const Hero = () => {
             className="text-center text-[40px] md:text-5xl lg:text-6xl"
           />
 
-          <p className="text-center md: tracking-wide mb-4 
-            text-sm md:text-lg lg:text-1.5xl"> 
-            Hi, I&apos;m Akash Bawanthade
+          <p className="text-center md: tracking-wide mb-4 text-sm md:text-lg lg:text-1.5xl"> 
+            Hi, I am Akash Bawanthade  
           </p>
 
           <a href="#about">
