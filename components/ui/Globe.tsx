@@ -60,19 +60,26 @@ interface WorldProps {
   data: Position[];
 }
 
+// Define proper types for globe data
+interface GlobeDataPoint {
+  size: number;
+  order: number;
+  color: (t: number) => string;
+  lat: number;
+  lng: number;
+}
+
+interface GlobeMaterial {
+  color: Color;
+  emissive: Color;
+  emissiveIntensity: number;
+  shininess: number;
+}
+
 let numbersOfRings: number[] = [0];
 
 export function Globe({ globeConfig, data }: WorldProps) {
-  const [globeData, setGlobeData] = useState<
-    | {
-        size: number;
-        order: number;
-        color: (t: number) => string;
-        lat: number;
-        lng: number;
-      }[]
-    | null
-  >(null);
+  const [globeData, setGlobeData] = useState<GlobeDataPoint[] | null>(null);
 
   const globeRef = useRef<ThreeGlobe | null>(null);
 
@@ -103,27 +110,22 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     // globeMaterial may not be available immediately; guard with try/catch
     try {
-      const globeMaterial = (globe as any).globeMaterial();
+      const globeMaterial = (globe as ThreeGlobe & { globeMaterial: () => GlobeMaterial }).globeMaterial();
       if (!globeMaterial) return;
 
       globeMaterial.color = new Color(cfg.globeColor as string);
       globeMaterial.emissive = new Color(cfg.emissive as string);
       globeMaterial.emissiveIntensity = cfg.emissiveIntensity ?? 0.1;
       globeMaterial.shininess = cfg.shininess ?? 0.9;
-    } catch (e) {
+    } catch (error) {
       // If globeMaterial isn't ready yet, silently ignore — next effect run will try again
+      console.warn("Globe material not ready:", error);
     }
   }, [cfg]);
 
   const _buildData = useCallback(() => {
     const arcs = data || [];
-    const points: {
-      size: number;
-      order: number;
-      color: (t: number) => string;
-      lat: number;
-      lng: number;
-    }[] = [];
+    const points: GlobeDataPoint[] = [];
 
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
@@ -161,23 +163,23 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     globe
       .arcsData(data)
-      .arcStartLat((d: any) => (d as { startLat: number }).startLat * 1)
-      .arcStartLng((d: any) => (d as { startLng: number }).startLng * 1)
-      .arcEndLat((d: any) => (d as { endLat: number }).endLat * 1)
-      .arcEndLng((d: any) => (d as { endLng: number }).endLng * 1)
+      .arcStartLat((d: Position) => d.startLat * 1)
+      .arcStartLng((d: Position) => d.startLng * 1)
+      .arcEndLat((d: Position) => d.endLat * 1)
+      .arcEndLng((d: Position) => d.endLng * 1)
       .arcColor((e: Position) => e.color)
-      .arcAltitude((e: any) => (e as { arcAlt: number }).arcAlt * 1)
+      .arcAltitude((e: Position) => e.arcAlt * 1)
       .arcStroke(() => {
         return [0.32, 0.28, 0.3][Math.round(Math.random() * 2)];
       })
       .arcDashLength(cfg.arcLength as number)
-      .arcDashInitialGap((e: any) => (e as { order: number }).order * 1)
+      .arcDashInitialGap((e: Position) => e.order * 1)
       .arcDashGap(15)
       .arcDashAnimateTime(() => cfg.arcTime as number);
 
     globe
       .pointsData(data)
-      .pointColor((e: any) => (e as { color: string }).color)
+      .pointColor((e: Position) => e.color)
       .pointsMerge(true)
       .pointAltitude(0.0)
       .pointRadius(2);

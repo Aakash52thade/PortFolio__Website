@@ -1,6 +1,5 @@
 "use client";
-import { FaLocationArrow } from "react-icons/fa6";
-import { FaGithub } from "react-icons/fa"; // Add GitHub icon
+import { FaGithub } from "react-icons/fa"; // Only import what we use
 import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
 

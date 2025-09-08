@@ -21,7 +21,7 @@ const Education = () => {
         {/* Timeline Section */}
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            {education.map((edu, index) => (
+            {education.map((edu) => (
               <div key={edu.id} className="relative mb-8 md:mb-12 w-full flex justify-center">
                 {/* Education Card Container */}
                 <div className="w-full max-w-2xl">
