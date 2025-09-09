@@ -1,11 +1,12 @@
 "use client";
-import { FaGithub } from "react-icons/fa"; // Only import what we use
+import Image from "next/image";
+import { FaGithub } from "react-icons/fa";
 import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
 
-const RecentProject  = () => {
+const RecentProject = () => {
   return (
-    <div className="py-20" id="projects"> {/* Add id="projects" here */}
+    <div className="py-20" id="projects">
       <h1 className="heading">
         A small selection of{" "}
         <span className="text-purple">recent projects</span>
@@ -19,19 +20,26 @@ const RecentProject  = () => {
             <PinContainer
               title="/ui.aceternity.com"
               href="https://twitter.com/mannupaaji"
-              deployLink={item.deploy} // Pass deploy link to PinContainer
+              deployLink={item.deploy}
             >
               <div className="relative flex items-center justify-center sm:w-96 w-[80vw] overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
                 <div
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
                   style={{ backgroundColor: "#13162D" }}
                 >
-                  <img src="/bg.png" alt="bgimg" />
+                  <Image 
+                    src="/bg.png" 
+                    alt="background image" 
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-                <img
+                <Image
                   src={item.img}
-                  alt="cover"
-                  className="z-10 absolute bottom-0"
+                  alt={`${item.title} project cover`}
+                  width={400}
+                  height={300}
+                  className="z-10 absolute bottom-0 object-contain"
                 />
               </div>
 
@@ -59,7 +67,13 @@ const RecentProject  = () => {
                         transform: `translateX(-${5 * index + 2}px)`,
                       }}
                     >
-                      <img src={icon} alt="icon5" className="p-2" />
+                      <Image 
+                        src={icon} 
+                        alt={`technology icon ${index}`} 
+                        width={20}
+                        height={20}
+                        className="p-1"
+                      />
                     </div>
                   ))}
                 </div>
@@ -67,8 +81,8 @@ const RecentProject  = () => {
                 <div 
                   className="flex justify-center items-center cursor-pointer hover:scale-105 transition-transform pointer-events-auto z-50"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent card click
-                    window.open(item.link, "_blank"); // Open GitHub link
+                    e.stopPropagation();
+                    window.open(item.link, "_blank");
                   }}
                 >
                   <p className="flex lg:text-xl md:text-xs text-sm text-purple">
@@ -85,4 +99,4 @@ const RecentProject  = () => {
   );
 };
 
-export default RecentProject ;
+export default RecentProject;

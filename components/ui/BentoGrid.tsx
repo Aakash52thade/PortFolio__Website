@@ -1,17 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { IoCopyOutline } from "react-icons/io5";
-// Also install this npm i --save-dev @types/react-lottie
 import Lottie from 'lottie-react';
 import { cn } from "@/lib/utils";
 import { BackgroundGradientAnimation } from "./GradientBg";
 import GridGlobe from "./GridGlobe";
 import animationData from "@/data/confetti.json";
 import MagicButton from "../ui/MagicButton";
-
-// ... rest of your BentoGrid code
-
 
 export const BentoGrid = ({
   className,
@@ -23,7 +20,6 @@ export const BentoGrid = ({
   return (
     <div
       className={cn(
-        // change gap-4 to gap-8, change grid-cols-3 to grid-cols-5, remove md:auto-rows-[18rem], add responsive code
         "grid grid-cols-1 md:grid-cols-6 lg:grid-cols-5 md:grid-row-7 gap-4 lg:gap-8 mx-auto",
         className
       )}
@@ -32,6 +28,7 @@ export const BentoGrid = ({
     </div>
   );
 };
+
 export const BentoGridItem = ({
   className,
   id,
@@ -87,22 +84,25 @@ export const BentoGridItem = ({
       <div className={`${id === 6 && "flex justify-center"} h-full`}>
         <div className="w-full h-full absolute">
           {img && (
-            <img
+            <Image
               src={img}
-              alt={img}
-              className={cn(imgClassName, "object-cover object-center ")}
+              alt={`grid item ${id}`}
+              fill
+              className={cn(imgClassName, "object-cover object-center")}
             />
           )}
         </div>
         <div
-          className={`absolute right-0 -bottom-5 ${id === 5 && "w-full opacity-80"
-            } `}
+          className={`absolute right-0 -bottom-5 ${
+            id === 5 && "w-full opacity-80"
+          } `}
         >
           {spareImg && (
-            <img
+            <Image
               src={spareImg}
-              alt={spareImg}
-              className="object-cover object-center w-full h-full"
+              alt={`spare image for item ${id}`}
+              fill
+              className="object-cover object-center"
             />
           )}
         </div>
@@ -206,8 +206,9 @@ export const BentoGridItem = ({
           {id === 6 && (
             <div className="mt-5 relative">
               <div
-                className={`absolute -bottom-5 right-0 ${copied ? "block" : "block"
-                  }`}
+                className={`absolute -bottom-5 right-0 ${
+                  copied ? "block" : "block"
+                }`}
               >
                 <Lottie options={defaultOptions} height={200} width={400} />
               </div>
