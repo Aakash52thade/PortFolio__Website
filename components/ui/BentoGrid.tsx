@@ -54,14 +54,7 @@ export const BentoGridItem = ({
 
   const [copied, setCopied] = useState(false);
 
-  const defaultOptions = {
-    loop: copied,
-    autoplay: copied,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
+  
 
   const handleCopy = () => {
     const text = "akashbawanthade02@gmail.com";
@@ -210,8 +203,13 @@ export const BentoGridItem = ({
                   copied ? "block" : "block"
                 }`}
               >
-                <Lottie options={defaultOptions} height={200} width={400} />
-              </div>
+              <Lottie 
+                animationData={animationData} 
+                loop={true}
+                autoplay={true}
+                style={{ height: 200, width: 400 }}
+              /> 
+            </div>
 
               <MagicButton
                 title={copied ? "Email is Copied!" : "Copy my email address"}
