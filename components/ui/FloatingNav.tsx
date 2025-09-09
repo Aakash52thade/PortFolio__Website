@@ -26,7 +26,8 @@ export const FloatingNav = ({
     // Ensure current is a number
     if (typeof current === "number") {
       const previous = scrollYProgress.getPrevious();
-      const direction = previous !== null ? current - previous : 0; // ✅ safe
+      // Fix: Handle undefined case properly with type checking
+      const direction = (previous !== undefined && previous !== null) ? current - previous : 0;
   
       if (scrollYProgress.get() < 0.05) {
         setVisible(false);
@@ -39,7 +40,6 @@ export const FloatingNav = ({
       }
     }
   });
-  
 
   return (
     <AnimatePresence mode="wait">
