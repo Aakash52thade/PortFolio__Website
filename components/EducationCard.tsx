@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 interface EducationProps {
   id: number;
@@ -24,24 +24,14 @@ const EducationCard: React.FC<EducationCardProps> = ({ education }) => {
         <div className="flex-shrink-0">
           <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-lg overflow-hidden bg-black-300">
             {education.img ? (
-              education.img.startsWith('data:') ? (
-                // For base64 data URLs, use regular img tag
-                <img
-                  src={education.img}
-                  alt={education.school}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                // For external URLs, use Next.js Image component
-                <Image
-                  src={education.img}
-                  alt={education.school}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 48px, 56px"
-                  unoptimized // Add this for external images
-                />
-              )
+              <Image
+                src={education.img}
+                alt={education.school}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 48px, 56px"
+                unoptimized // works for external URLs & base64 data
+              />
             ) : (
               // Default fallback when no image
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple/20 to-purple/40 rounded-lg">
@@ -52,7 +42,7 @@ const EducationCard: React.FC<EducationCardProps> = ({ education }) => {
             )}
           </div>
         </div>
-        
+
         <div className="flex-1">
           <h3 className="text-white font-semibold text-lg md:text-xl leading-tight mb-1">
             {education.school}
@@ -60,9 +50,7 @@ const EducationCard: React.FC<EducationCardProps> = ({ education }) => {
           <p className="text-white-200 font-medium text-sm md:text-base mb-1">
             {education.degree}
           </p>
-          <p className="text-white-100 text-xs md:text-sm">
-            {education.date}
-          </p>
+          <p className="text-white-100 text-xs md:text-sm">{education.date}</p>
         </div>
       </div>
 
